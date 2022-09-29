@@ -1,8 +1,4 @@
-import {
-	compareLength,
-	compareOrder,
-	compareValue
-} from "../functions/compare";
+import { compareLength, compareOrder, compareValue } from "../functions/compare";
 
 import { addSuffix } from "../util/addSuffix";
 import { censorValue } from "../functions/censor";
@@ -52,9 +48,7 @@ export class ConfigChecker {
 							const propValue = rule.split(": ");
 							const returnObject = {
 								type: rules[key[0]][rule].type,
-								message: rules[key[0]][rule].message
-									?.replace("{0}", propValue[0])
-									?.replace("{1}", propValue[1])
+								message: rules[key[0]][rule].message?.replace("{0}", propValue[0])?.replace("{1}", propValue[1])
 							};
 							returnArray.push({
 								path: `${key[0]}/${value[0]}`,
@@ -85,26 +79,16 @@ export class ConfigChecker {
 
 					if (value[1].length === 0) {
 						for (const rule in ruleSet) {
-							if (
-								rule.includes("Count:") &&
-								!compareLength(value[1], rule) &&
-								!unmatchedRule.includes(rule)
-							) {
+							if (rule.includes("Count:") && !compareLength(value[1], rule) && !unmatchedRule.includes(rule)) {
 								const propValue = rule.split(": ");
 								const returnObject = {
 									type: ruleSet[rule].type,
-									message: ruleSet[rule].message
-										?.replace("{0}", propValue[0])
-										?.replace("{1}", propValue[1])
+									message: ruleSet[rule].message?.replace("{0}", propValue[0])?.replace("{1}", propValue[1])
 								};
 								returnArray.push({
 									path: `${key[0]}/${value[0]}/${propValue[0]}`,
 									actualValue: value[1].length.toString(),
-									expectedValue: `${propValue[1]} ${
-										propValue[0].toLowerCase() === "mincount"
-											? "or more"
-											: "or less"
-									}`,
+									expectedValue: `${propValue[1]} ${propValue[0].toLowerCase() === "mincount" ? "or more" : "or less"}`,
 									ruleSet: returnObject
 								});
 								//console.error(`Length does not meet requirement: ${key[0]}.${value[0]}.${rule}`, ruleSet[rule]);
@@ -115,63 +99,39 @@ export class ConfigChecker {
 						(value[1] as Array<object>).forEach((obj, index) => {
 							// insane nested loops
 							for (const rule in ruleSet) {
-								if (
-									rule.includes("Count:") &&
-									!compareLength(value[1], rule) &&
-									!unmatchedRule.includes(rule)
-								) {
+								if (rule.includes("Count:") && !compareLength(value[1], rule) && !unmatchedRule.includes(rule)) {
 									const propValue = rule.split(": ");
 									const returnObject = {
 										type: ruleSet[rule].type,
-										message: ruleSet[rule].message
-											?.replace("{0}", propValue[0])
-											?.replace("{1}", propValue[1])
+										message: ruleSet[rule].message?.replace("{0}", propValue[0])?.replace("{1}", propValue[1])
 									};
 									returnArray.push({
 										path: `${key[0]}/${value[0]}/${propValue[0]}`,
 										actualValue: value[1].length.toString(),
-										expectedValue: `${propValue[1]} ${
-											propValue[0].toLowerCase() === "mincount"
-												? "or more"
-												: "or less"
-										}`,
+										expectedValue: `${propValue[1]} ${propValue[0].toLowerCase() === "mincount" ? "or more" : "or less"}`,
 										ruleSet: returnObject
 									});
 									//console.error(`Length does not meet requirement: ${key[0]}.${value[0]}.${rule}`, ruleSet[rule]);
 									unmatchedRule.push(rule);
 								} else {
-									const driverName =
-										(obj as any).Path ??
-										(obj as any).BundlePath ??
-										(obj as any).Comment;
+									const driverName = (obj as any).Path ?? (obj as any).BundlePath ?? (obj as any).Comment;
 									Object.entries(obj).forEach(subValue => {
 										// idk why and don't want to know why
 										// ignore comments
-										if (rule.includes("Count:") || subValue[0] === "Comment")
-											return;
+										if (rule.includes("Count:") || subValue[0] === "Comment") return;
 
 										const propValue = rule.split(": ");
-										const driver: string = driverName
-											? driverName
-											: addSuffix(index + 1);
+										const driver: string = driverName ? driverName : addSuffix(index + 1);
 										const instance = `${key[0]}/${value[0]}/${driver}`;
 										const path = `${instance}/${propValue[0]}`;
-										const driverArray: string[] = value[1].map(
-											(item: any) => item.Path ?? item.BundlePath
-										);
+										const driverArray: string[] = value[1].map((item: any) => item.Path ?? item.BundlePath);
 
 										if (compareValue(subValue, rule)) {
 											// Throw error if rule has negative lookahead or not a string
-											if (
-												propValue[1].includes("?!") ||
-												typeof subValue[1] === "boolean" ||
-												typeof subValue[1] === "number"
-											) {
+											if (propValue[1].includes("?!") || typeof subValue[1] === "boolean" || typeof subValue[1] === "number") {
 												const returnObject = {
 													type: ruleSet[rule].type,
-													message: ruleSet[rule].message
-														?.replace("{0}", driver)
-														?.replace("{1}", propValue[1])
+													message: ruleSet[rule].message?.replace("{0}", driver)?.replace("{1}", propValue[1])
 												};
 												returnArray.push({
 													path,
@@ -182,10 +142,8 @@ export class ConfigChecker {
 											} else unmatchedRule.push(rule);
 										} else if (
 											compareValue(subValue, rule, "match") &&
-											(typeof subValue[1] === "boolean" ||
-												typeof subValue[1] === "number") &&
-											returnArray.filter(item => item.path.startsWith(instance))
-												.length === 0
+											(typeof subValue[1] === "boolean" || typeof subValue[1] === "number") &&
+											returnArray.filter(item => item.path.startsWith(instance)).length === 0
 										) {
 											const returnObject = {
 												type: "success",
@@ -204,49 +162,29 @@ export class ConfigChecker {
 											driver.match(/.kext|.efi/g) &&
 											compareOrder(driverArray, rule, ruleSet[rule].order)
 										) {
-											const returnMessageType = driver.includes(".kext")
-												? "kext"
-												: "driver";
-											const returnMessage =
-												ruleSet[rule].order.charAt(0) === "<"
-													? "must be lower than"
-													: "must be higher than";
+											const returnMessageType = driver.includes(".kext") ? "kext" : "driver";
+											const returnMessage = ruleSet[rule].order.charAt(0) === "<" ? "must be lower than" : "must be higher than";
 											const returnObject = {
 												type: "error",
-												message: `The order of **${
-													subValue[1]
-												}** is incorrect. It ${returnMessage} **${ruleSet[
-													rule
-												].order.slice(1)}**`
+												message: `The order of **${subValue[1]}** is incorrect. It ${returnMessage} **${ruleSet[rule].order.slice(1)}**`
 											};
 
-											const lastPathPart =
-												path.split("/")[path.split("/").length - 1].length + 1;
+											const lastPathPart = path.split("/")[path.split("/").length - 1].length + 1;
 
 											returnArray.push({
 												path: path.slice(0, path.length - lastPathPart),
-												actualValue: addSuffix(
-													driverArray.findIndex(item => item === subValue[1]) +
-														1
-												),
-												expectedValue: `${
-													returnMessageType.charAt(0).toUpperCase() +
-													returnMessageType.slice(1)
-												} ${returnMessage} ${ruleSet[rule].order.slice(1)}`,
+												actualValue: addSuffix(driverArray.findIndex(item => item === subValue[1]) + 1),
+												expectedValue: `${returnMessageType.charAt(0).toUpperCase() + returnMessageType.slice(1)} ${returnMessage} ${ruleSet[
+													rule
+												].order.slice(1)}`,
 												ruleSet: returnObject
 											});
 										}
 
-										if (
-											unmatchedRule.filter(rl => rl === rule).length ===
-											value[1].length
-										) {
+										if (unmatchedRule.filter(rl => rl === rule).length === value[1].length) {
 											const returnObject = {
 												type: ruleSet[rule].type,
-												message: ruleSet[rule].message?.replace(
-													"{0}",
-													propValue[1]
-												)
+												message: ruleSet[rule].message?.replace("{0}", propValue[1])
 											};
 											returnArray.push({
 												path: `${key[0]}/${value[0]}`,
@@ -281,10 +219,7 @@ export class ConfigChecker {
 											if (compareValue(subObj, prop)) {
 												const returnObject = {
 													type: propSet[prop].type,
-													message: propSet[prop].message?.replace(
-														"{0}",
-														subObj[1]
-													)
+													message: propSet[prop].message?.replace("{0}", subObj[1])
 												};
 												returnArray.push({
 													path: `${key[0]}/${value[0]}/${obj[0]}/${subObj[0]}`,
@@ -299,17 +234,12 @@ export class ConfigChecker {
 									Object.keys(subRuleset).forEach(rule => {
 										const propValue = rule.split(": ");
 										const path = `${key[0]}/${value[0]}/${index}/${obj[0]}/${subValue[0]}`;
-										if (
-											rule.includes("Count:") &&
-											!compareLength(obj[1] as object, rule)
-										) {
+										if (rule.includes("Count:") && !compareLength(obj[1] as object, rule)) {
 											console.error(`${key[0]}.${value[0]}.${rule}`);
 										} else if (compareValue(subValue, rule)) {
 											const returnObject = {
 												type: subRuleset[rule].type,
-												message: subRuleset[rule].message
-													?.replace("{0}", subValue[0])
-													?.replace("{1}", subValue[1])
+												message: subRuleset[rule].message?.replace("{0}", subValue[0])?.replace("{1}", subValue[1])
 											};
 											returnArray.push({
 												path,
@@ -337,15 +267,10 @@ export class ConfigChecker {
 								const path = `${key[0]}/${value[0]}/${obj[0]}`;
 								if (rule.includes("Count:") && !compareLength(obj, rule)) {
 									console.error(ruleSet[rule]);
-								} else if (
-									matchValue(obj, rule, ruleSet[rule].type) ||
-									compareValue(obj as string[], rule)
-								) {
+								} else if (matchValue(obj, rule, ruleSet[rule].type) || compareValue(obj as string[], rule)) {
 									const returnObject = {
 										type: ruleSet[rule].type,
-										message: ruleSet[rule].message
-											?.replace("{0}", ruleSplit[0])
-											?.replace("{1}", ruleSplit[1])
+										message: ruleSet[rule].message?.replace("{0}", ruleSplit[0])?.replace("{1}", ruleSplit[1])
 									};
 									returnArray.push({
 										path,
@@ -363,10 +288,7 @@ export class ConfigChecker {
 										actualValue: censorValue(obj as string[]),
 										ruleSet: returnObject
 									});
-									if (
-										ruleSet[rule].requires &&
-										!resolveDep(this.config, ruleSet[rule].requires)
-									) {
+									if (ruleSet[rule].requires && !resolveDep(this.config, ruleSet[rule].requires)) {
 										const returnObject = {
 											type: "error",
 											message: `${rule} is dependent on ${ruleSet[rule].requires}`

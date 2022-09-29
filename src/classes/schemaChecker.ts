@@ -43,9 +43,7 @@ export class SchemaChecker {
 						expectedValue:
 							error.params.missingProperty ??
 							error.params.additionalProperty ??
-							error.instancePath.split("/")[
-								error.instancePath.split("/").length - 1
-							],
+							error.instancePath.split("/")[error.instancePath.split("/").length - 1],
 						type: error.params?.type,
 						ruleSet: returnObject
 					});
