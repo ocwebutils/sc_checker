@@ -163,7 +163,8 @@ export class ConfigChecker {
 											compareOrder(driverArray, rule, ruleSet[rule].order)
 										) {
 											const returnMessageType = driver.includes(".kext") ? "kext" : "driver";
-											const returnMessage = ruleSet[rule].order.charAt(0) === "<" ? "must be lower than" : "must be higher than";
+											const returnMessage =
+												ruleSet[rule].order.charAt(0) === "<" ? "must be listed lower (in order) than" : "must be listed higher (in order) than";
 											const returnObject = {
 												type: "error",
 												message: `The order of **${subValue[1]}** is incorrect. It ${returnMessage} **${ruleSet[rule].order.slice(1)}**`

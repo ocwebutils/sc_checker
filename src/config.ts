@@ -1,1 +1,1 @@
-export const censoredKeys = ["MLB", "SystemSerialNumber", "SystemUUID"];
+export const censoredKeys = ["MLB", "SystemSerialNumber", "SystemUUID", "ROM"];
