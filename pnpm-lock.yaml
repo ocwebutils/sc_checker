@@ -1,19 +1,19 @@
 lockfileVersion: 5.4
 
 specifiers:
-  ajv: 8.11.0
-  typescript: 4.8.3
+  ajv: 8.11.2
+  typescript: 4.9.3
 
 dependencies:
-  ajv: 8.11.0
+  ajv: 8.11.2
 
 devDependencies:
-  typescript: 4.8.3
+  typescript: 4.9.3
 
 packages:
 
-  /ajv/8.11.0:
-    resolution: {integrity: sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==}
+  /ajv/8.11.2:
+    resolution: {integrity: sha512-E4bfmKAhGiSTvMfL1Myyycaub+cUEU2/IvpylXkUu7CHBkBj1f/ikdzbD7YQ6FKUbixDxeYvB/xY4fvyroDlQg==}
     dependencies:
       fast-deep-equal: 3.1.3
       json-schema-traverse: 1.0.0
@@ -39,8 +39,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /typescript/4.8.3:
-    resolution: {integrity: sha512-goMHfm00nWPa8UvR/CPSvykqf6dVV8x/dp0c5mFTMTIu0u0FlGWRioyy7Nn0PGAdHxpJZnuO/ut+PpQ8UiHAig==}
+  /typescript/4.9.3:
+    resolution: {integrity: sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true

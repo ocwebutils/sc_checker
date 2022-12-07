@@ -8,7 +8,6 @@ import { resolveDep } from "../functions/deps";
 
 export class ConfigChecker {
 	private config: { [s: string]: unknown } | ArrayLike<unknown>;
-	private resultArray: any;
 
 	constructor(config: { [s: string]: unknown } | ArrayLike<unknown>) {
 		this.config = config;
@@ -307,10 +306,7 @@ export class ConfigChecker {
 				}
 			});
 		});
-		this.resultArray = returnArray;
-	}
 
-	public toJSON() {
-		return this.resultArray;
+		return returnArray;
 	}
 }
