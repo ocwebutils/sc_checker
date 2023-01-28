@@ -47,7 +47,7 @@ export class ConfigChecker {
 							const propValue = rule.split(": ");
 							const returnObject = {
 								type: rules[key[0]][rule].type,
-								message: rules[key[0]][rule].message?.replace("{0}", propValue[0])?.replace("{1}", propValue[1])
+								message: rules[key[0]][rule].message?.replace(/\{0\}/g, propValue[0])?.replace(/\{1\}/g, propValue[1])
 							};
 							returnArray.push({
 								path: `${key[0]}/${value[0]}`,
@@ -82,7 +82,7 @@ export class ConfigChecker {
 								const propValue = rule.split(": ");
 								const returnObject = {
 									type: ruleSet[rule].type,
-									message: ruleSet[rule].message?.replace("{0}", propValue[0])?.replace("{1}", propValue[1])
+									message: ruleSet[rule].message?.replace(/\{0\}/g, propValue[0])?.replace(/\{1\}/g, propValue[1])
 								};
 								returnArray.push({
 									path: `${key[0]}/${value[0]}/${propValue[0]}`,
@@ -102,7 +102,7 @@ export class ConfigChecker {
 									const propValue = rule.split(": ");
 									const returnObject = {
 										type: ruleSet[rule].type,
-										message: ruleSet[rule].message?.replace("{0}", propValue[0])?.replace("{1}", propValue[1])
+										message: ruleSet[rule].message?.replace(/\{0}/g, propValue[0])?.replace(/\{1\}/g, propValue[1])
 									};
 									returnArray.push({
 										path: `${key[0]}/${value[0]}/${propValue[0]}`,
@@ -130,7 +130,7 @@ export class ConfigChecker {
 											if (propValue[1].includes("?!") || typeof subValue[1] === "boolean" || typeof subValue[1] === "number") {
 												const returnObject = {
 													type: ruleSet[rule].type,
-													message: ruleSet[rule].message?.replace("{0}", driver)?.replace("{1}", propValue[1])
+													message: ruleSet[rule].message?.replace(/\{0\}/g, driver)?.replace(/\{1\}/g, propValue[1])
 												};
 												returnArray.push({
 													path,
@@ -184,7 +184,7 @@ export class ConfigChecker {
 										if (unmatchedRule.filter(rl => rl === rule).length === value[1].length) {
 											const returnObject = {
 												type: ruleSet[rule].type,
-												message: ruleSet[rule].message?.replace("{0}", propValue[1])
+												message: ruleSet[rule].message?.replace(/\{0\}/g, propValue[1])
 											};
 											returnArray.push({
 												path: `${key[0]}/${value[0]}`,
@@ -219,7 +219,7 @@ export class ConfigChecker {
 											if (compareValue(subObj, prop)) {
 												const returnObject = {
 													type: propSet[prop].type,
-													message: propSet[prop].message?.replace("{0}", subObj[1])
+													message: propSet[prop].message?.replace(/\{0\}/g, subObj[1])
 												};
 												returnArray.push({
 													path: `${key[0]}/${value[0]}/${obj[0]}/${subObj[0]}`,
@@ -239,7 +239,7 @@ export class ConfigChecker {
 										} else if (compareValue(subValue, rule)) {
 											const returnObject = {
 												type: subRuleset[rule].type,
-												message: subRuleset[rule].message?.replace("{0}", subValue[0])?.replace("{1}", subValue[1])
+												message: subRuleset[rule].message?.replace(/\{0\}/g, subValue[0])?.replace(/\{1\}/g, subValue[1])
 											};
 											returnArray.push({
 												path,
@@ -270,7 +270,7 @@ export class ConfigChecker {
 								} else if (matchValue(obj, rule, ruleSet[rule].type) || compareValue(obj as string[], rule)) {
 									const returnObject = {
 										type: ruleSet[rule].type,
-										message: ruleSet[rule].message?.replace("{0}", ruleSplit[0])?.replace("{1}", ruleSplit[1])
+										message: ruleSet[rule].message?.replace(/\{0\}/g, ruleSplit[0])?.replace(/\{1\}/g, ruleSplit[1])
 									};
 									returnArray.push({
 										path,
