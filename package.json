@@ -17,7 +17,6 @@
 		"typescript": "5.0.4"
 	},
 	"engines": {
-		"node": ">=16",
-		"pnpm": ">=8"
+		"node": ">=16"
 	}
 }
