@@ -117,7 +117,7 @@ export class ConfigChecker {
 									Object.entries(obj).forEach(subValue => {
 										// idk why and don't want to know why
 										// ignore comments
-										if (rule.includes("Count:") || subValue[0] === "Comment") return;
+										if (rule.includes("Count:")) return;
 
 										const propValue = rule.split(": ");
 										const driver: string = driverName ? driverName : addSuffix(index + 1);
